@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_margin"
+    tools:context=".EditorActivity">
+
+    <!-- Product name category -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Label -->
+        <TextView
+            style="@style/CategoryStyle"
+            android:text="@string/product_name" />
+
+        <!-- Name field -->
+        <EditText
+            android:id="@+id/edit_product_name"
+            style="@style/EditorFieldStyle"
+            android:layout_marginLeft="30dp"
+            android:hint="@string/hint_name_of_product"
+            android:inputType="textCapWords" />
+
+    </LinearLayout>
+
+    <!-- Price category -->
+    <LinearLayout
+        android:id="@+id/container_measurement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Label -->
+        <TextView
+            style="@style/CategoryStyle"
+            android:text="@string/price" />
+
+
+        <!-- price field -->
+        <EditText
+            android:id="@+id/edit_price"
+            style="@style/EditorFieldStyle"
+            android:layout_marginLeft="90dp"
+            android:hint="@string/hint_dollar"
+            android:inputType="numberDecimal" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Label -->
+        <TextView
+            style="@style/CategoryStyle"
+            android:text="@string/quantity" />
+
+        <!-- Quantity field -->
+        <EditText
+            android:id="@+id/edit_quantity"
+            style="@style/EditorFieldStyle"
+            android:layout_marginLeft="70dp"
+            android:inputType="number"
+            android:hint="@string/hint_quantity_of_product"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Label -->
+        <TextView
+            style="@style/CategoryStyle"
+            android:text="@string/supplier_name" />
+
+        <!-- Supplier Name field -->
+        <EditText
+            android:id="@+id/edit_supplier_name"
+            style="@style/EditorFieldStyle"
+            android:layout_marginLeft="30dp"
+            android:inputType="textCapWords"
+            android:hint="@string/hint_company_name"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Label -->
+        <TextView
+            style="@style/CategoryStyle"
+            android:text="@string/supplier_phone_no" />
+
+        <!-- Supplier phone no. field -->
+        <EditText
+            android:id="@+id/edit_supplier_phone_number"
+            style="@style/EditorFieldStyle"
+            android:layout_marginLeft="5dp"
+            android:inputType="phone"
+            android:hint="@string/hint_telephone_no"/>
+
+    </LinearLayout>
+
+</LinearLayout>
