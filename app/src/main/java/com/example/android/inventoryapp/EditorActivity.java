@@ -111,8 +111,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mQuantityEditText.setOnTouchListener(mTouchListener);
         mSupplierNameEditText.setOnTouchListener(mTouchListener);
         mSupplierPhoneNoEditText.setOnTouchListener(mTouchListener);
-
-        }
+    }
 
     /**
      * Get user input from editor and save new product into database.
@@ -126,20 +125,12 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String supplierNameString= mSupplierNameEditText.getText().toString().trim();
         String supplierPhoneNoString= mSupplierPhoneNoEditText.getText().toString().trim();
 
-//        double price=0.0;
-//        //try-catch block to prevent app from crashing when no price input provided.
-//        try {
-//            price= Double.parseDouble(mPriceEditText.getText().toString().trim());
-//        } catch (NumberFormatException e){
-//            Log.e(LOG_TAG, "No input value in price", e);;
-//        }
-
         // Check if this is supposed to be a new pet
         // and check if all the fields in the editor are blank
         if (mCurrentProductUri == null &&
-        TextUtils.isEmpty(productNameString) && TextUtils.isEmpty(priceString) &&
-        TextUtils.isEmpty(quantityString) && TextUtils.isEmpty(supplierNameString)
-        && TextUtils.isEmpty(supplierPhoneNoString)){
+            TextUtils.isEmpty(productNameString) && TextUtils.isEmpty(priceString) &&
+            TextUtils.isEmpty(quantityString) && TextUtils.isEmpty(supplierNameString)
+            && TextUtils.isEmpty(supplierPhoneNoString)){
         // Since no fields were modified, we can return early without creating a new pet.
         // No need to create ContentValues and no need to do any ContentProvider operations.
         return;
@@ -159,8 +150,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         // and product attributes from the editor are the values.
         ContentValues values = new ContentValues();
         values.put(ProductEntry.COLUMN_PRODUCT_NAME, productNameString);
-//        values.put(ProductEntry.COLUMN_PRODUCT_PRICE, priceString);
-        values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, quantityString);
+        //values.put(ProductEntry.COLUMN_PRODUCT_PRICE, priceString);
+       // values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, quantityString);
         values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER_NAME, supplierNameString);
         values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER_PHONE_NO, supplierPhoneNoString);
 
@@ -171,6 +162,12 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             price= Double.parseDouble(mPriceEditText.getText().toString().trim());
         }
         values.put(ProductEntry.COLUMN_PRODUCT_PRICE, price);
+
+        int quantity=0;
+        if (!TextUtils.isEmpty(quantityString)) {
+            quantity = Integer.parseInt(mQuantityEditText.getText().toString().trim());
+        }
+        values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, quantity);
 
         // Determine if this is a new or existing pet by checking if mCurrentPetUri is null or not
         if (mCurrentProductUri == null) {
@@ -234,12 +231,12 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 menuItem.setVisible(false);
             }
             return true;
-            }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
             // User clicked on a menu option in the app bar overflow menu
-            switch (item.getItemId()) {
+        switch (item.getItemId()) {
             // Respond to a click on the "Save" menu option
             case R.id.action_save:
                 // Save pet to database
@@ -259,7 +256,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 if (!mProductHasChanged) {
                     NavUtils.navigateUpFromSameTask(EditorActivity.this);
                     return true;
-            }
+                }
 
             // Otherwise if there are unsaved changes, setup a dialog to warn the user.
             // Create a click listener to handle the user confirming that
@@ -277,8 +274,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 showUnsavedChangesDialog(discardButtonClickListener);
                 return true;
                 }
-            return super.onOptionsItemSelected(item);
-                }
+        return super.onOptionsItemSelected(item);
+    }
 
     /**
      * This method is called when the back button is pressed.
@@ -295,16 +292,16 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             // Create a click listener to handle the user confirming that changes should be discarded.
             DialogInterface.OnClickListener discardButtonClickListener =
                 new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialogInterface, int i) {
-                // User clicked "Discard" button, close the current activity.
-                finish();
-            }
-            };
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                            // User clicked "Discard" button, close the current activity.
+                            finish();
+                    }
+                };
 
             // Show dialog that there are unsaved changes
             showUnsavedChangesDialog(discardButtonClickListener);
-            }
+    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
@@ -325,7 +322,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             null,                   // No selection clause
             null,                   // No selection arguments
             null);                  // Default sort order
-            }
+    }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
@@ -346,22 +343,21 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
                 // Extract out the value from the Cursor for the given column index
                 String name = cursor.getString(nameColumnIndex);
-
                 double price = cursor.getDouble(priceColumnIndex);
                 int quantity = cursor.getInt(quantityColumnIndex);
                 String supplierName = cursor.getString(supplierNameColumnIndex);
                 String supplierPhoneNo = cursor.getString(supplierPhoneNoColumnIndex);
 
 
-            //update the views on the screen with the values from the database
-            mProductNameEditText.setText(name);
-            mPriceEditText.setText(Double.toString(price));
-            mQuantityEditText.setText(Integer.toString(quantity));
-            mSupplierNameEditText.setText(supplierName);
-            mSupplierPhoneNoEditText.setText(supplierPhoneNo);
+                //update the views on the screen with the values from the database
+                mProductNameEditText.setText(name);
+                mPriceEditText.setText(Double.toString(price));
+                mQuantityEditText.setText(Integer.toString(quantity));
+                mSupplierNameEditText.setText(supplierName);
+                mSupplierPhoneNoEditText.setText(supplierPhoneNo);
 
             }
-            }
+    }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
@@ -371,8 +367,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             mQuantityEditText.setText("");
             mSupplierNameEditText.setText("");
             mSupplierPhoneNoEditText.setText("");
-
-            }
+    }
 
     /**
      * Show a dialog that warns the user there are unsaved changes that will be lost
@@ -382,26 +377,26 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
      *                                   the user confirms they want to discard their changes
      */
     private void showUnsavedChangesDialog(
-            DialogInterface.OnClickListener discardButtonClickListener) {
+                DialogInterface.OnClickListener discardButtonClickListener) {
             // Create an AlertDialog.Builder and set the message, and click listeners
             // for the postivie and negative buttons on the dialog.
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage(R.string.unsaved_changes_dialog_msg);
             builder.setPositiveButton(R.string.discard, discardButtonClickListener);
             builder.setNegativeButton(R.string.keep_editing, new DialogInterface.OnClickListener() {
-    public void onClick(DialogInterface dialog, int id) {
-                // User clicked the "Keep editing" button, so dismiss the dialog
-                // and continue editing the pet.
-                if (dialog != null) {
-                    dialog.dismiss();
-            }
-            }
+                public void onClick(DialogInterface dialog, int id) {
+                    // User clicked the "Keep editing" button, so dismiss the dialog
+                    // and continue editing the pet.
+                    if (dialog != null) {
+                        dialog.dismiss();
+                    }
+                }
             });
 
             // Create and show the AlertDialog
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
-            }
+    }
 
     /**
      * Prompt the user to confirm that they want to delete this pet.
@@ -412,25 +407,25 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage(R.string.delete_dialog_msg);
             builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
-    public void onClick(DialogInterface dialog, int id) {
-            // User clicked the "Delete" button, so delete the pet.
-            deleteProduct();
-            }
+                public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Delete" button, so delete the pet.
+                    deleteProduct();
+                }
             });
             builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-    public void onClick(DialogInterface dialog, int id) {
-            // User clicked the "Cancel" button, so dismiss the dialog
-            // and continue editing the pet.
-            if (dialog != null) {
-                dialog.dismiss();
-            }
-            }
+                public void onClick(DialogInterface dialog, int id) {
+                    // User clicked the "Cancel" button, so dismiss the dialog
+                    // and continue editing the pet.
+                    if (dialog != null) {
+                        dialog.dismiss();
+                    }
+                }
             });
 
             // Create and show the AlertDialog
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
-            }
+    }
 
     /**
      * Perform the deletion of the pet in the database.
@@ -457,6 +452,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
             // Close the activity
             finish();
-            }
+    }
 
 }

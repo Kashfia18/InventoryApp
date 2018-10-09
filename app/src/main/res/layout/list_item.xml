@@ -29,7 +29,8 @@
         android:id="@+id/price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/dollar_symbol"
+        android:layout_below="@id/name"
+        android:layout_toRightOf="@id/dollar_symbol"
         android:fontFamily="sans-serif"
         android:textAppearance="?android:textAppearanceSmall"
         android:textColor="#AEB6BD"  />

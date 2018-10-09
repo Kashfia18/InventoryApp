@@ -92,7 +92,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
      */
     private void deleteAllProducts() {
         int rowsDeleted = getContentResolver().delete(ProductEntry.CONTENT_URI, null, null);
-        Log.v("CatalogActivity", rowsDeleted + " rows deleted from pet database");
+        Log.v("CatalogActivity", rowsDeleted + " rows deleted from product database");
     }
 
 
@@ -149,9 +149,9 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
                 ProductEntry._ID,
                 ProductEntry.COLUMN_PRODUCT_NAME,
                 ProductEntry.COLUMN_PRODUCT_PRICE,
-                ProductEntry.COLUMN_PRODUCT_QUANTITY,
-                ProductEntry.COLUMN_PRODUCT_SUPPLIER_NAME,
-                ProductEntry.COLUMN_PRODUCT_SUPPLIER_PHONE_NO};
+                ProductEntry.COLUMN_PRODUCT_QUANTITY};
+//                ProductEntry.COLUMN_PRODUCT_SUPPLIER_NAME,
+//                ProductEntry.COLUMN_PRODUCT_SUPPLIER_PHONE_NO};
 
         // This loader will execute the ContentProvider's query method on a background thread
         return new CursorLoader(this,   // Parent activity context
