@@ -61,13 +61,33 @@
             style="@style/CategoryStyle"
             android:text="@string/quantity" />
 
-        <!-- Quantity field -->
-        <EditText
-            android:id="@+id/edit_quantity"
-            style="@style/EditorFieldStyle"
-            android:layout_marginLeft="70dp"
-            android:inputType="number"
-            android:hint="@string/hint_quantity_of_product"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/all_margin"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/decrement"
+                android:layout_width="@dimen/plus_button_width"
+                android:layout_height="@dimen/plus_button_height"
+                android:text="@string/decrement"
+                android:layout_marginLeft="@dimen/quantity_margin_left"/>
+
+            <!-- Quantity field -->
+            <TextView
+                android:id="@+id/edit_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_quantity_of_product" />
+
+            <Button
+                android:id="@+id/increment"
+                android:layout_width="@dimen/plus_button_width"
+                android:layout_height="@dimen/plus_button_height"
+                android:text="@string/increment" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -110,5 +130,15 @@
             android:hint="@string/hint_telephone_no"/>
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/call_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Order Now"
+        android:fontFamily="sans-serif-medium"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textColor="#2B3D4D"  />
 
 </LinearLayout>

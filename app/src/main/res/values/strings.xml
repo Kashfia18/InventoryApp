@@ -32,4 +32,7 @@
     <string name="editor_delete_product_successful">Product deleted</string>
     <string name="editor_delete_product_failed">Error with deleting pet</string>
     <string name="out_of_stock">Out of stock</string>
+    <string name="no_phone_no">Please include a phone no.</string>
+    <string name="decrement">-</string>
+    <string name="increment">+</string>
 </resources>

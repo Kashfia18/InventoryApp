@@ -42,6 +42,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:text="Sale"
+        android:focusable="false"
         android:fontFamily="sans-serif-medium"
         android:textAppearance="?android:textAppearanceMedium"
         android:textColor="#2B3D4D"  />
