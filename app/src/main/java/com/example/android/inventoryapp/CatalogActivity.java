@@ -1,23 +1,38 @@
 package com.example.android.inventoryapp;
 
+import android.app.LoaderManager;
+import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.android.inventoryapp.data.ProductDbHelper;
 import com.example.android.inventoryapp.data.ProductContract.ProductEntry;
 
-public class CatalogActivity extends AppCompatActivity {
+public class CatalogActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks <Cursor> {
 
-    ProductDbHelper mDbHelper;
+    /**
+     * Identifier for the pet data loader
+     */
+    private static final int PRODUCT_LOADER = 0;
+
+
+    /**
+     * Adapter for the ListView
+     */
+    ProductCursorAdapter mCursorAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,94 +48,53 @@ public class CatalogActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    mDbHelper = new ProductDbHelper(this);
-    }
+        // Find the ListView which will be populated with the pet data
+        ListView productListView = findViewById(R.id.list);
 
-    //Show CatalogActivity with solution code:
-    @Override
-    protected void onStart() {
-        super.onStart();
-        displayDatabaseInfo();
+        // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
+//        View emptyView = findViewById(R.id.empty_view);
+//        productListView.setEmptyView(emptyView);
+
+        // Setup an Adapter to create a list item for each row of pet data in the Cursor.
+        // There is no pet data yet (until the loader finishes) so pass in null for the Cursor.
+        mCursorAdapter = new ProductCursorAdapter(this, null);
+        productListView.setAdapter(mCursorAdapter);
+
+        // Setup the item click listener
+        productListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Log.i("test","clicked");
+                // Create new intent to go to {@link EditorActivity}
+                Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
+
+                // Form the content URI that represents the specific pet that was clicked on,
+                // by appending the "id" (passed as input to this method) onto the
+                // {@link PetEntry#CONTENT_URI}.
+                // For example, the URI would be "content://com.example.android.pets/pets/2"
+                // if the pet with ID 2 was clicked on.
+                Uri currentProductUri = ContentUris.withAppendedId(ProductEntry.CONTENT_URI, id);
+
+                // Set the URI on the data field of the intent
+                intent.setData(currentProductUri);
+
+                // Launch the {@link EditorActivity} to display the data for the current pet.
+                startActivity(intent);
+            }
+        });
+
+        // Kick off the loader
+        getLoaderManager().initLoader(PRODUCT_LOADER, null, this);
     }
 
     /**
-     * Temporary helper method to display information in the onscreen TextView about the state of
-     * the products database.
+     * Helper method to delete all pets in the database.
      */
-    private void displayDatabaseInfo() {
-        // To access our database, we instantiate our subclass of SQLiteOpenHelper
-        // and pass the context, which is the current activity.
-
-        // Create and/or open a database to read from it
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
-
-        // Perform this raw SQL query "SELECT * FROM products"
-        // to get a Cursor that contains all rows from the products table.
-
-        String [] projection ={
-                ProductEntry._ID,
-                ProductEntry.COLUMN_PRODUCT_NAME,
-                ProductEntry.COLUMN_PRODUCT_PRICE,
-                ProductEntry.COLUMN_PRODUCT_QUANTITY,
-                ProductEntry.COLUMN_PRODUCT_SUPPLIER_NAME,
-                ProductEntry.COLUMN_PRODUCT_SUPPLIER_PHONE_NO
-        };
-        Cursor cursor = db.query(
-                ProductEntry.TABLE_NAME,
-                projection,
-                null,
-                null,
-                null,
-                null,
-                null);
-
-        TextView displayView = findViewById(R.id.text_view_product);
-
-        try {
-            // Create a header in the Text View that looks like this:
-            //
-            // The products table contains <number of rows in Cursor> products.
-            // _id - product_name - price - quantity - supplier_name - supplier_phone_no
-            //
-            // In the while loop below, iterate through the rows of the cursor and display
-            // the information from each column in this order.
-            displayView.setText("The products table contains " + cursor.getCount() + " products.\n\n");
-            displayView.append(ProductEntry._ID + " - " +
-                    ProductEntry.COLUMN_PRODUCT_NAME + " - " +
-                    ProductEntry.COLUMN_PRODUCT_PRICE + " - " +
-                    ProductEntry.COLUMN_PRODUCT_QUANTITY + " - " +
-                    ProductEntry.COLUMN_PRODUCT_SUPPLIER_NAME + " - " +
-                    ProductEntry.COLUMN_PRODUCT_SUPPLIER_PHONE_NO + "\n");
-
-            // Figure out the index of each column
-            int idColumnIndex = cursor.getColumnIndex(ProductEntry._ID);
-            int productNameColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_NAME);
-            int priceColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_PRICE);
-            int quantityColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_QUANTITY);
-            int supplierNameColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_SUPPLIER_NAME);
-            int supplierPhoneNoColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_SUPPLIER_PHONE_NO);
-
-            // Iterate through all the returned rows in the cursor
-            while (cursor.moveToNext()) {
-                // Use that index to extract the String or Int value of the word
-                // at the current row the cursor is on.
-                int currentID = cursor.getInt(idColumnIndex);
-                String currentProductName = cursor.getString(productNameColumnIndex);
-                Double currentPrice = cursor.getDouble(priceColumnIndex);
-                int currentQuantity = cursor.getInt(quantityColumnIndex);
-                String currentSupplier = cursor.getString(supplierNameColumnIndex);
-                String currentSupplierPhoneNo = cursor.getString(supplierPhoneNoColumnIndex);
-                // Display the values from each column of the current row in the cursor in the TextView
-                displayView.append(("\n" + currentID + " - " +
-                        currentProductName + " - " + currentPrice + " - " + currentQuantity + " - "
-                        + currentSupplier + " - " + currentSupplierPhoneNo));
-            }
-        } finally {
-            // Always close the cursor when you're done reading from it. This releases all its
-            // resources and makes it invalid.
-            cursor.close();
-        }
+    private void deleteAllProducts() {
+        int rowsDeleted = getContentResolver().delete(ProductEntry.CONTENT_URI, null, null);
+        Log.v("CatalogActivity", rowsDeleted + " rows deleted from pet database");
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -136,23 +110,24 @@ public class CatalogActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to a click on the "Insert dummy data" menu option
             case R.id.action_insert_dummy_data:
-                // insert product details
-                //display the product details
-                insertPet();
-                displayDatabaseInfo();
+                // Do nothing for now
+                insertProduct();
+                Log.i("dummy_data", "insertpet");
                 return true;
             // Respond to a click on the "Delete all entries" menu option
             case R.id.action_delete_all_entries:
-                // Do nothing for now
+                deleteAllProducts();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void insertPet() {
 
-        // Gets the data repository in write mode
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+    /**
+     * Helper method to insert hardcoded pet data into the database. For debugging purposes only.
+     */
+
+    private void insertProduct() {
 
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
@@ -162,7 +137,42 @@ public class CatalogActivity extends AppCompatActivity {
         values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER_NAME, "Pen Squad");
         values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER_PHONE_NO, "919-567-2379");
 
-        // Insert the new row, returning the primary key value of the new row
-        long newRowId= db.insert(ProductEntry.TABLE_NAME, null, values);
+        Uri newUri = getContentResolver().insert(
+                ProductEntry.CONTENT_URI,
+                values);
     }
-}
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        // Define a projection that specifies the columns from the table we care about.
+        String[] projection = {
+                ProductEntry._ID,
+                ProductEntry.COLUMN_PRODUCT_NAME,
+                ProductEntry.COLUMN_PRODUCT_PRICE,
+                ProductEntry.COLUMN_PRODUCT_QUANTITY,
+                ProductEntry.COLUMN_PRODUCT_SUPPLIER_NAME,
+                ProductEntry.COLUMN_PRODUCT_SUPPLIER_PHONE_NO};
+
+        // This loader will execute the ContentProvider's query method on a background thread
+        return new CursorLoader(this,   // Parent activity context
+                ProductEntry.CONTENT_URI,   // Provider content URI to query
+                projection,             // Columns to include in the resulting Cursor
+                null,                   // No selection clause
+                null,                   // No selection arguments
+                null);                  // Default sort order
+    }
+
+        @Override
+        public void onLoadFinished (Loader < Cursor > loader, Cursor data){
+            // Update {@link PetCursorAdapter} with this new cursor containing updated pet data
+            mCursorAdapter.swapCursor(data);
+        }
+
+        @Override
+        public void onLoaderReset (Loader < Cursor > loader) {
+            // Callback called when the data needs to be deleted
+            mCursorAdapter.swapCursor(null);
+        }
+
+
+    }
