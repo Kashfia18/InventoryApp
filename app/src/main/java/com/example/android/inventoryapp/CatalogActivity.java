@@ -52,8 +52,8 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         ListView productListView = findViewById(R.id.list);
 
         // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
-//        View emptyView = findViewById(R.id.empty_view);
-//        productListView.setEmptyView(emptyView);
+        View emptyView = findViewById(R.id.empty_view);
+        productListView.setEmptyView(emptyView);
 
         // Setup an Adapter to create a list item for each row of pet data in the Cursor.
         // There is no pet data yet (until the loader finishes) so pass in null for the Cursor.

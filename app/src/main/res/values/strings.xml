@@ -35,4 +35,9 @@
     <string name="no_phone_no">Please include a phone no.</string>
     <string name="decrement">-</string>
     <string name="increment">+</string>
+    <string name="empty_view_title_text">Nothing to display</string>
+    <string name="empty_view_subtitle_text">Get started by adding a product.</string>
+    <string name="empty_view_subtitle_text_details">Enter a pproduct\'s name, price, quantity.</string>
+    <string name="cannot_be_negative">Quantity cannot be negative</string>
+    <string name="need_a_name">Need a product name</string>
 </resources>

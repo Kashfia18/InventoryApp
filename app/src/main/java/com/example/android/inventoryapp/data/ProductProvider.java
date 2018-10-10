@@ -129,7 +129,7 @@ public class ProductProvider extends ContentProvider {
         // Check that the name is not null
         String name = values.getAsString(ProductEntry.COLUMN_PRODUCT_NAME);
         if (name == null) {
-            throw new IllegalArgumentException("Pet requires a name");
+            throw new IllegalArgumentException("Product requires a name");
         }
 
         // If the weight is provided, check that it's greater than or equal to 0 kg

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Layout for a single list item in the list of pets -->
+<!-- Layout for a single list item in the list of products -->
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -14,7 +14,8 @@
         android:layout_alignParentLeft="true"
         android:fontFamily="sans-serif-medium"
         android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="#2B3D4D"  />
+        android:textColor="#2B3D4D"
+        android:layout_marginBottom="30dp"/>
 
     <TextView
         android:id="@+id/dollar_symbol"
@@ -24,7 +25,7 @@
         android:fontFamily="sans-serif"
         android:text="$"
         android:textAppearance="?android:textAppearanceSmall"
-        android:textColor="#AEB6BD"  />
+        android:textColor="#AEB6BD" />
     <TextView
         android:id="@+id/price"
         android:layout_width="wrap_content"
@@ -45,7 +46,8 @@
         android:focusable="false"
         android:fontFamily="sans-serif-medium"
         android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="#2B3D4D"  />
+        android:textColor="#2B3D4D"
+        android:layout_marginBottom="10dp"/>
 
     <TextView
         android:id="@+id/quantity"
@@ -53,6 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@id/sale_button"
+        android:layout_marginRight="16dp"
         android:fontFamily="sans-serif"
         android:textAppearance="?android:textAppearanceSmall"
         android:textColor="#AEB6BD"  />

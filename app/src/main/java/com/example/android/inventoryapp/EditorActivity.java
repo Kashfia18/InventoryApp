@@ -146,42 +146,38 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             @Override
             public void onClick(View v) {
                 int quantity = Integer.valueOf(mQuantityEditText.getText().toString());
-                if (quantity>0){
-                    quantity--;
-                    // Content Values to update quantity
-                    ContentValues values = new ContentValues();
-                    values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, quantity);
-
-                    // update the database
-                    getContentResolver().update(mCurrentProductUri, values, null, null);
+                if(quantity==0){
+                    //Show an error message as a Toast
+                    Toast.makeText(EditorActivity.this,getString(R.string.cannot_be_negative)
+                            , Toast.LENGTH_SHORT).show();
+                    //Exit this method early when there is nothing else to do.
+                    return;
                 }
-            }
+                quantity--;
+                displayQuantity(quantity);
+                }
+
         });
 
         increment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int quantity = Integer.valueOf(mQuantityEditText.getText().toString());
-
-                    quantity++;
-                    // Content Values to update quantity
-                    ContentValues values = new ContentValues();
-                    values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, quantity);
-
-                    // update the database
-                    getContentResolver().update(mCurrentProductUri, values, null, null);
+                quantity++;
+                displayQuantity(quantity);
 
             }
         });
 
         //when clicked on the number it will open in the dialer.
 
-        final String supplierPhoneNoString = mSupplierPhoneNoEditText.getText().toString().trim();
+
 
         mCallSupplier.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!TextUtils.isEmpty(supplierPhoneNoString)) {
+                final String supplierPhoneNoString = mSupplierPhoneNoEditText.getText().toString().trim();
+                if(!supplierPhoneNoString.isEmpty()) {
                     Intent intent = new Intent(Intent.ACTION_DIAL);
                     intent.setData(Uri.parse("tel:" + supplierPhoneNoString));
                     if (intent.resolveActivity(getPackageManager()) != null) {
@@ -192,6 +188,14 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 }
             }
         });
+    }
+
+    /**
+     * This method displays the given quantity value on the screen.
+     */
+    private void displayQuantity(int quantity) {
+        TextView quantityTextView = findViewById(R.id.edit_quantity);
+        quantityTextView.setText("" + quantity);
     }
 
     /**
@@ -216,16 +220,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             // No need to create ContentValues and no need to do any ContentProvider operations.
             return;
         }
-//        int quantity=0;
-//        //try-catch block to prevent app from crashing when no quantity input provided.
-//        try {
-//            quantity = Integer.parseInt(mQuantityEditText.getText().toString().trim());
-//        } catch (NumberFormatException e) {
-//            Log.e(LOG_TAG, "No input value in quantity", e);;
-//        }
-//        String supplierNameString =  mSupplierNameEditText.getText().toString().trim();
-//        String supplierPhoneNoString =  mSupplierPhoneNoEditText.getText().toString().trim();
-
 
         // Create a ContentValues object where column names are the keys,
         // and product attributes from the editor are the values.
@@ -235,6 +229,12 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         // values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, quantityString);
         values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER_NAME, supplierNameString);
         values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER_PHONE_NO, supplierPhoneNoString);
+
+        if (TextUtils.isEmpty(productNameString)) {
+            Toast.makeText(this, getString(R.string.need_a_name),
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         // If the weight is not provided by the user, don't try to parse the string into an
         // integer value. Use 0 by default.
@@ -256,9 +256,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             // returning the content URI for the new pet.
             Uri newUri = getContentResolver().insert(ProductEntry.CONTENT_URI, values);
 
-
-            //        // Insert a new row for product in the database, returning the ID of that new row.
-            //        long newRowId = db.insert(ProductEntry.TABLE_NAME, null, values);
 
             // Show a toast message depending on whether or not the insertion was successful.
             if (newUri == null) {
