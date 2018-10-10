@@ -22,7 +22,8 @@
         <EditText
             android:id="@+id/edit_product_name"
             style="@style/EditorFieldStyle"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="@dimen/margin_namefield_left"
+            android:layout_marginStart="@dimen/margin_namefield_left"
             android:hint="@string/hint_name_of_product"
             android:inputType="textCapWords" />
 
@@ -45,7 +46,8 @@
         <EditText
             android:id="@+id/edit_price"
             style="@style/EditorFieldStyle"
-            android:layout_marginLeft="90dp"
+            android:layout_marginLeft="@dimen/price_field_marginLeft"
+            android:layout_marginStart="@dimen/price_field_marginLeft"
             android:hint="@string/hint_dollar"
             android:inputType="numberDecimal" />
 
@@ -67,20 +69,23 @@
             android:layout_marginBottom="@dimen/all_margin"
             android:orientation="horizontal">
 
+            <!-- Decrement button -->
             <Button
                 android:id="@+id/decrement"
                 android:layout_width="@dimen/plus_button_width"
                 android:layout_height="@dimen/plus_button_height"
-                android:text="@string/decrement"
-                android:layout_marginLeft="@dimen/quantity_margin_left"/>
+                android:layout_marginLeft="@dimen/quantity_margin_left"
+                android:layout_marginStart="@dimen/quantity_margin_left"
+                android:text="@string/decrement" />
 
             <!-- Quantity field -->
-            <TextView
+            <EditText
                 android:id="@+id/edit_quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0" />
+                android:text="@string/starting_quantity" />
 
+            <!-- Increment button -->
             <Button
                 android:id="@+id/increment"
                 android:layout_width="@dimen/plus_button_width"
@@ -105,9 +110,10 @@
         <EditText
             android:id="@+id/edit_supplier_name"
             style="@style/EditorFieldStyle"
-            android:layout_marginLeft="30dp"
-            android:inputType="textCapWords"
-            android:hint="@string/hint_company_name"/>
+            android:layout_marginLeft="@dimen/margin_namefield_left"
+            android:layout_marginStart="@dimen/margin_namefield_left"
+            android:hint="@string/hint_company_name"
+            android:inputType="textCapWords" />
 
     </LinearLayout>
 
@@ -125,9 +131,10 @@
         <EditText
             android:id="@+id/edit_supplier_phone_number"
             style="@style/EditorFieldStyle"
-            android:layout_marginLeft="5dp"
-            android:inputType="phone"
-            android:hint="@string/hint_telephone_no"/>
+            android:layout_marginLeft="@dimen/supplier_phone_no_marginLeft"
+            android:layout_marginStart="@dimen/supplier_phone_no_marginLeft"
+            android:hint="@string/hint_telephone_no"
+            android:inputType="phone" />
 
     </LinearLayout>
 
@@ -136,9 +143,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Order Now"
         android:fontFamily="sans-serif-medium"
+        android:text="@string/order_now_button"
         android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="#2B3D4D"  />
+        android:textColor="@color/order_now_button_color" />
 
 </LinearLayout>

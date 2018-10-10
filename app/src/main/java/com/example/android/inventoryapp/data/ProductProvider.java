@@ -80,7 +80,7 @@ public class ProductProvider extends ContentProvider {
                 break;
             case PRODUCT_ID:
                 // For the PRODUCT_ID code, extract out the ID from the URI.
-                // For an example URI such as "content://com.example.android.pets/pets/3",
+                // For an example URI such as "content://com.example.android.inventoryapp/products/3",
                 // the selection will be "_id=?" and the selection argument will be a
                 // String array containing the actual ID of 3 in this case.
                 //
@@ -90,7 +90,7 @@ public class ProductProvider extends ContentProvider {
                 selection = ProductEntry._ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
 
-                // This will perform a query on the pets table where the _id equals 3 to return a
+                // This will perform a query on the products table where the _id equals 3 to return a
                 // Cursor containing that row of the table.
                 cursor = database.query(ProductEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
@@ -122,7 +122,7 @@ public class ProductProvider extends ContentProvider {
     }
 
     /**
-     * Insert a pet into the database with the given content values. Return the new content URI
+     * Insert a product into the database with the given content values. Return the new content URI
      * for that specific row in the database.
      */
     private Uri insertProduct(Uri uri, ContentValues values) {
@@ -132,13 +132,13 @@ public class ProductProvider extends ContentProvider {
             throw new IllegalArgumentException("Product requires a name");
         }
 
-        // If the weight is provided, check that it's greater than or equal to 0 kg
+       // If the price is provided, check that it's greater than or equal to 0
         Integer price = values.getAsInteger(ProductEntry.COLUMN_PRODUCT_PRICE);
         if (price != null && price < 0) {
             throw new IllegalArgumentException("Product requires valid price");
         }
 
-        // If the price is provided, check that it's greater than or equal to 0
+        // If the quantity is provided, check that it's greater than or equal to 0
         Integer quantity = values.getAsInteger(ProductEntry.COLUMN_PRODUCT_QUANTITY);
         if (quantity != null && quantity < 0) {
             throw new IllegalArgumentException("Product requires valid quantity");
@@ -149,7 +149,7 @@ public class ProductProvider extends ContentProvider {
         // Get writeable database
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
-        // Insert the new pet with the given values
+        // Insert the new product with the given values
         long id = database.insert(ProductEntry.TABLE_NAME, null, values);
         // If the ID is -1, then the insertion failed. Log an error and return null.
         if (id == -1) {
@@ -157,7 +157,7 @@ public class ProductProvider extends ContentProvider {
             return null;
         }
 
-        // Notify all listeners that the data has changed for the pet content URI
+        // Notify all listeners that the data has changed for the product content URI
         getContext().getContentResolver().notifyChange(uri, null);
 
         // Return the new URI with the ID (of the newly inserted row) appended at the end
@@ -175,7 +175,7 @@ public class ProductProvider extends ContentProvider {
             case PRODUCTS:
                 return updateProduct(uri, contentValues, selection, selectionArgs);
             case PRODUCT_ID:
-                // For the PET_ID code, extract out the ID from the URI,
+                // For the PRODUCT_ID code, extract out the ID from the URI,
                 // so we know which row to update. Selection will be "_id=?" and selection
                 // arguments will be a String array containing the actual ID.
                 selection = ProductEntry._ID + "=?";
@@ -187,12 +187,12 @@ public class ProductProvider extends ContentProvider {
     }
 
     /**
-     * Update pets in the database with the given content values. Apply the changes to the rows
-     * specified in the selection and selection arguments (which could be 0 or 1 or more pets).
+     * Update products in the database with the given content values. Apply the changes to the rows
+     * specified in the selection and selection arguments (which could be 0 or 1 or more products).
      * Return the number of rows that were successfully updated.
      */
     private int updateProduct(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        // If the {@link PetEntry#COLUMN_PET_NAME} key is present,
+        // If the {@link ProductEntry#COLUMN_PRODUCT_NAME} key is present,
         // check that the name value is not null.
         if (values.containsKey(ProductEntry.COLUMN_PRODUCT_NAME)) {
             String name = values.getAsString(ProductEntry.COLUMN_PRODUCT_NAME);
@@ -201,20 +201,20 @@ public class ProductProvider extends ContentProvider {
             }
         }
 
-        // If the {@link PetEntry#COLUMN_PET_WEIGHT} key is present,
-        // check that the weight value is valid.
+        // If the {@link ProductEntry#COLUMN_PRODUCT_PRICE} key is present,
+        // check that the price value is valid.
         if (values.containsKey(ProductEntry.COLUMN_PRODUCT_PRICE)) {
-            // Check that the weight is greater than or equal to 0 kg
+            // Check that the price is greater than or equal to 0 kg
             Integer price = values.getAsInteger(ProductEntry.COLUMN_PRODUCT_PRICE);
             if (price != null && price < 0) {
                 throw new IllegalArgumentException("Product requires valid price");
             }
         }
 
-        // If the {@link PetEntry#COLUMN_PET_WEIGHT} key is present,
-        // check that the weight value is valid.
+        // If the {@link ProductEntry#COLUMN_PRODUCT_Quantity} key is present,
+        // check that the quantity value is valid.
         if (values.containsKey(ProductEntry.COLUMN_PRODUCT_QUANTITY)) {
-            // Check that the weight is greater than or equal to 0 kg
+            // Check that the quantity is greater than or equal to 0.
             Integer quantity = values.getAsInteger(ProductEntry.COLUMN_PRODUCT_QUANTITY);
             if (quantity != null && quantity < 0) {
                 throw new IllegalArgumentException("Product requires valid price");

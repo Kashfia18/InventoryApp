@@ -1,7 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Layout for a single list item in the list of products -->
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><!-- Layout for a single list item in the list of products -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/activity_margin">
@@ -10,12 +8,13 @@
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="@dimen/single_item_namefield_marginBottom"
         android:fontFamily="sans-serif-medium"
         android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="#2B3D4D"
-        android:layout_marginBottom="30dp"/>
+        android:textColor="@color/order_now_button_color" />
 
     <TextView
         android:id="@+id/dollar_symbol"
@@ -23,40 +22,45 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/name"
         android:fontFamily="sans-serif"
-        android:text="$"
+        android:text="@string/editorActivity_dollar_symbol"
         android:textAppearance="?android:textAppearanceSmall"
-        android:textColor="#AEB6BD" />
+        android:textColor="@color/list_item_text_color" />
+
     <TextView
         android:id="@+id/price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/name"
+        android:layout_toEndOf="@id/dollar_symbol"
         android:layout_toRightOf="@id/dollar_symbol"
         android:fontFamily="sans-serif"
         android:textAppearance="?android:textAppearanceSmall"
-        android:textColor="#AEB6BD"  />
+        android:textColor="@color/list_item_text_color" />
 
     <Button
         android:id="@+id/sale_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:text="Sale"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="@dimen/list_item_button_marginBottom"
         android:focusable="false"
         android:fontFamily="sans-serif-medium"
+        android:text="@string/sale_button"
         android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="#2B3D4D"
-        android:layout_marginBottom="10dp"/>
+        android:textColor="@color/order_now_button_color" />
 
     <TextView
         android:id="@+id/quantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_below="@id/sale_button"
-        android:layout_marginRight="16dp"
+        android:layout_marginEnd="@dimen/margin_from_parentRight"
+        android:layout_marginRight="@dimen/margin_from_parentRight"
         android:fontFamily="sans-serif"
         android:textAppearance="?android:textAppearanceSmall"
-        android:textColor="#AEB6BD"  />
+        android:textColor="@color/list_item_text_color" />
 </RelativeLayout>

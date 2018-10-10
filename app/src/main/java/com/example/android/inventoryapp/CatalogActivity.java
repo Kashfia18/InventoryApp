@@ -17,14 +17,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.android.inventoryapp.data.ProductContract.ProductEntry;
 
 public class CatalogActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks <Cursor> {
 
     /**
-     * Identifier for the pet data loader
+     * Identifier for the product data loader
      */
     private static final int PRODUCT_LOADER = 0;
 
@@ -48,15 +47,15 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
                 startActivity(intent);
             }
         });
-        // Find the ListView which will be populated with the pet data
+        // Find the ListView which will be populated with the product data
         ListView productListView = findViewById(R.id.list);
 
         // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
         View emptyView = findViewById(R.id.empty_view);
         productListView.setEmptyView(emptyView);
 
-        // Setup an Adapter to create a list item for each row of pet data in the Cursor.
-        // There is no pet data yet (until the loader finishes) so pass in null for the Cursor.
+        // Setup an Adapter to create a list item for each row of product data in the Cursor.
+        // There is no product data yet (until the loader finishes) so pass in null for the Cursor.
         mCursorAdapter = new ProductCursorAdapter(this, null);
         productListView.setAdapter(mCursorAdapter);
 
@@ -64,21 +63,20 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         productListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Log.i("test","clicked");
                 // Create new intent to go to {@link EditorActivity}
                 Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
 
-                // Form the content URI that represents the specific pet that was clicked on,
+                // Form the content URI that represents the specific product that was clicked on,
                 // by appending the "id" (passed as input to this method) onto the
-                // {@link PetEntry#CONTENT_URI}.
-                // For example, the URI would be "content://com.example.android.pets/pets/2"
-                // if the pet with ID 2 was clicked on.
+                // {@link ProductEntry#CONTENT_URI}.
+                // For example, the URI would be "content://com.example.android.inventoryapp/products/2"
+                // if the product with ID 2 was clicked on.
                 Uri currentProductUri = ContentUris.withAppendedId(ProductEntry.CONTENT_URI, id);
 
                 // Set the URI on the data field of the intent
                 intent.setData(currentProductUri);
 
-                // Launch the {@link EditorActivity} to display the data for the current pet.
+                // Launch the {@link EditorActivity} to display the data for the current product.
                 startActivity(intent);
             }
         });
@@ -88,7 +86,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
     }
 
     /**
-     * Helper method to delete all pets in the database.
+     * Helper method to delete all products in the database.
      */
     private void deleteAllProducts() {
         int rowsDeleted = getContentResolver().delete(ProductEntry.CONTENT_URI, null, null);
@@ -112,7 +110,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
             case R.id.action_insert_dummy_data:
                 // Do nothing for now
                 insertProduct();
-                Log.i("dummy_data", "insertpet");
+                Log.i("dummy_data", "insertproduct");
                 return true;
             // Respond to a click on the "Delete all entries" menu option
             case R.id.action_delete_all_entries:
@@ -124,7 +122,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
 
 
     /**
-     * Helper method to insert hardcoded pet data into the database. For debugging purposes only.
+     * Helper method to insert hardcoded product data into the database. For debugging purposes only.
      */
 
     private void insertProduct() {
@@ -150,8 +148,6 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
                 ProductEntry.COLUMN_PRODUCT_NAME,
                 ProductEntry.COLUMN_PRODUCT_PRICE,
                 ProductEntry.COLUMN_PRODUCT_QUANTITY};
-//                ProductEntry.COLUMN_PRODUCT_SUPPLIER_NAME,
-//                ProductEntry.COLUMN_PRODUCT_SUPPLIER_PHONE_NO};
 
         // This loader will execute the ContentProvider's query method on a background thread
         return new CursorLoader(this,   // Parent activity context
@@ -164,7 +160,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
 
         @Override
         public void onLoadFinished (Loader < Cursor > loader, Cursor data){
-            // Update {@link PetCursorAdapter} with this new cursor containing updated pet data
+            // Update {@link ProductCursorAdapter} with this new cursor containing updated product data
             mCursorAdapter.swapCursor(data);
         }
 

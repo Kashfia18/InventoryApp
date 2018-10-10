@@ -37,7 +37,13 @@
     <string name="increment">+</string>
     <string name="empty_view_title_text">Nothing to display</string>
     <string name="empty_view_subtitle_text">Get started by adding a product.</string>
-    <string name="empty_view_subtitle_text_details">Enter a pproduct\'s name, price, quantity.</string>
+    <string name="empty_view_subtitle_text_details">Enter a product\'s name, price, quantity.</string>
     <string name="cannot_be_negative">Quantity cannot be negative</string>
     <string name="need_a_name">Need a product name</string>
+    <string name="starting_quantity">0</string>
+    <string name="order_now_button">Order Now</string>
+    <string name="editorActivity_dollar_symbol">$</string>
+    <string name="sale_button">Sale</string>
+    <string name="need_a_supplier_name">Need a supplier name</string>
+    <string name="need_a_phone_no">Need a supplier phone no</string>
 </resources>
